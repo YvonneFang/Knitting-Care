@@ -15,8 +15,8 @@ let d = 15;
 let promptArea = 80;
 let easing=0.04;
 
-// Start point at lower left hand side
-let startX1 = 680;
+// Start point at sleeve
+let startX1 = 460;
 let startY1 = 480;
 
 //TODO implement if over some sign, shuffle rule
@@ -28,8 +28,8 @@ let colorArray = [];// influenced by color changer function
 //color tracking
 let trackingData;
 let colors;
-let trackXGreen;
-let trackYGreen;
+let trackXBlue;
+let trackYBlue;
 let trackXRed;
 let trackYRed;
 
@@ -49,7 +49,7 @@ let patternColor;
 // Classifier Variable
 let classifier;
 // Model URL
-let imageModelURL = 'https://teachablemachine.withgoogle.com/models/3urt1tJx9/';
+let imageModelURL = 'https://teachablemachine.withgoogle.com/models/1J_bpJDNL/';
 // Video
 let video;
 let flippedVideo;
@@ -65,21 +65,22 @@ let finishAlert;
 //Load ML model
 function preload() {
   classifier = ml5.imageClassifier(imageModelURL + 'model.json');
-  img1 = loadImage('images/leaf.png');//ALWAYS remember to preload img
-  img2 = loadImage('images/fishbone.png');
-  img3 = loadImage('images/diamond.png');
-  img4 = loadImage('images/peacock.png');
-  img5 = loadImage('images/twist.png');
-  img6 = loadImage('images/heart.png');
+  img1 = loadImage('leaf.png');//ALWAYS remember to preload img
+  img2 = loadImage('fishbone.png');
+  img3 = loadImage('diamond.png');
+  img4 = loadImage('peacock.png');
+  img5 = loadImage('twist.png');
+  img6 = loadImage('heart.png');
   imgArray=[img1,img2,img3,img4,img5,img6];
-  clearButton = loadImage('images/clear_button_cn.png');
-  shuffleButton = loadImage('images/shuffle_button.png');
-  finishButton = loadImage('images/finish_button_cn.png');
-  hitAlert = createAudio('sounds/hit.wav');
-  finishAlert = createAudio('sounds/finish.wav');
+  clearButton = loadImage('clear_button_cn.png');
+  shuffleButton = loadImage('shuffle_button.png');
+  finishButton = loadImage('finish_button_cn.png');
+  hitAlert = createAudio('hit.wav');
+  finishAlert = createAudio('finish.wav');
 }
 
 function setup() {
+ 
  c1 = color('#AC2022');//red
  c2 = color('#A168DE');//purple
  c3 = color('#C2E4FF');//blue
@@ -115,29 +116,31 @@ function setup() {
   // Start classifying
   classifyVideo();
 
-  // Registering my own green color
-  tracking.ColorTracker.registerColor('green',function(r,g,b){
-    if (r<30&&g>50&&b<50){
+  // Registering my own blue color
+  tracking.ColorTracker.registerColor('blue',function(r,g,b){
+    if (r<40&&g<90&&b>120){
       return true;
     }
     return false;
   });
-    // Registering my own pink color
-  tracking.ColorTracker.registerColor('pink',function(r,g,b){
-    if (r>125&&g<90&&b<90){
+    // Registering my own red color
+  tracking.ColorTracker.registerColor('red',function(r,g,b){
+    if (r>210&&g<160&&b<160){
       return true;
     }
     return false;
   });
-  colors = new tracking.ColorTracker(['green','pink']);
+  colors = new tracking.ColorTracker(['blue','red']);
   tracking.track('#myVideo',colors);
   colors.on('track', function(event){
      trackingData = event.data; // break the trackingjs data into a global so we can access it with p5
   });
+
 }
 
 function draw() {
-  // background(255,250,240,20);
+
+  // set background canvas grey 50,50,50
   background(50,50,50);
 
   // Insert the graphics canvas
@@ -157,13 +160,13 @@ if (myImg&&imgX&&imgY){
 }
 
 // Knitting code
-if (label == "Pink & Green"&&promptDragged == false){
+if (label == "Red & Blue"&&promptDragged == false){
   
-  targetX1 = trackXGreen;//coordinates of tracked color
+  targetX1 = trackXBlue;//coordinates of tracked color
   targetXArray[0] = targetX1;
-  targetY1 = trackYGreen;//coordinates of tracked color
+  targetY1 = trackYBlue;//coordinates of tracked color
   for (let i=0;i<5;i++){
-    targetXArray[i] = trackXGreen + i*knitWidth/4;
+    targetXArray[i] = trackXBlue + i*knitWidth/4;
   }
   
   // Making sure audience knit within knitting constraints
@@ -196,44 +199,44 @@ if (label == "Pink & Green"&&promptDragged == false){
   //tracking code and cursor ellipses (trackingData is JS objects within an array)
   if (trackingData){
     for (let i = 0; i<trackingData.length;i++){
-      if (trackingData[i].color == "green"){
-      trackXGreen = trackingData[i].x+trackingData[i].width/2;
-      trackYGreen =trackingData[i].y+trackingData[i].height/2;
+      if (trackingData[i].color == "blue"){
+      trackXBlue = trackingData[i].x+trackingData[i].width/2;
+      trackYBlue =trackingData[i].y+trackingData[i].height/2;
         // Paint function separate from knitting
         let pointX = 0;
         let pointY = 0;
-        let ptargetX = trackXGreen;
-        let ptargetY = trackYGreen;
+        let ptargetX = trackXBlue;
+        let ptargetY = trackYBlue;
 
         //display the points, MIGHT NEED MORE TO MATCH YARN
-        fill('lime');
-        ellipse(width - trackXGreen,trackYGreen,d,d);
-      } else if (trackingData[i].color == "pink"){
+        fill('blue');
+        ellipse(width - trackXBlue,trackYBlue,d,d);
+      } else if (trackingData[i].color == "red"){
         trackXRed = trackingData[i].x+trackingData[i].width/2;
         trackYRed = trackingData[i].y+trackingData[i].height/2;
         // console.log(trackXRed);
-        fill('fuchsia'); 
+        fill('red'); 
         ellipse(width - trackXRed,trackYRed,d,d)
       }
     }
   }
       // Knit pattern shuffle button, clear and finish buttons
   image(shuffleButton,24,12,40,40);
-    if (label == 'Pink'&&trackXRed<696&&trackXRed>656&&trackYRed>12&&trackYRed<52){
+    if ((label == 'Red'||label == 'Red & Blue'||label == 'Blue')&&trackXRed<696&&trackXRed>656&&trackYRed>12&&trackYRed<52){
       hitAlert.play();
       shuffle(rule,true);
       console.log(rule);
       }
   image(clearButton,104,12,40,40);
-  if (label == 'Pink'&&trackXRed<616&&trackXRed>576&&trackYRed>12&&trackYRed<52){
+  if ((label == 'Red'||label == 'Red & Blue'||label == 'Blue')&&trackXRed<616&&trackXRed>576&&trackYRed>12&&trackYRed<52){
       hitAlert.play();
       paintbg.clear();
       }
   image(finishButton,186,12,40,40);
-  if (label == 'Pink'&&trackXRed<534&&trackXRed>494&&trackYRed>12&&trackYRed<52){
+  if ((label == 'Red'||label == 'Red & Blue'||label == 'Blue')&&trackXRed<534&&trackXRed>494&&trackYRed>12&&trackYRed<52){
       finishAlert.play();
       paintbg.filter(BLUR,5);
-      startX1 = 680;
+      startX1 = 460;
       startY1 = 480;
       }
 }
@@ -248,23 +251,17 @@ function colorChanger() {
     let cFinal = c1;
     if (int(counter) % 6 == 0) { 
       cFinal = cF1;//cFinal = c2(0.几 的时候一直cF1)
-      console.log("I'm pink");
     } else if (int(counter) % 6 == 1) {
       cFinal = cF2;
-     console.log("I'm lavendar");
 
     } else if (int(counter) % 6 == 2) {
       cFinal = cF3;
-            console.log("I'm blue");
 
     } else if (int(counter) % 6 == 3) {
       cFinal = cF4;
-            console.log("I'm green");
 
     } else if (int(counter) % 6 == 4) {
       cFinal = cF5;
-            console.log("I'm yellow");
-
     }
     counter += 0.05;// global variable
     return cFinal;
@@ -313,7 +310,7 @@ class Prompt{
     // console.log('x = '+ this.x);
     // console.log('redy = '+ trackYRed);
     // console.log('y = '+ this.y);
-    if(label == 'Pink'&&trackXRed<width-this.x&&trackXRed>width-(this.x+this.w)&&trackYRed>this.y&&trackYRed<this.y+this.h){
+    if((label == 'Red'||label == 'Red & Blue'||label == 'Blue')&&trackXRed<width-this.x&&trackXRed>width-(this.x+this.w)&&trackYRed>this.y&&trackYRed<this.y+this.h){
       // TODO pause setinterval when hover
       promptDragged = true;
       //console.log('here');
@@ -341,7 +338,7 @@ class Prompt{
     patternColor = color(random(255),random(255),random(255));
     paintbg.stroke(patternColor);
     paintbg.strokeWeight(5);
-    if(promptDragged == true&&label=="Pink & Green"&&trackYRed>80&&trackYRed<400){
+    if(promptDragged == true&&label=="Red & Blue"&&trackYRed>80&&trackYRed<400){
       // paintbg.image(this.img, this.x,this.y,this.w,this.h);
       if(draggedImg == 0){
         leafPattern(this.x,this.y);
