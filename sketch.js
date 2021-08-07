@@ -65,18 +65,18 @@ let finishAlert;
 //Load ML model
 function preload() {
   classifier = ml5.imageClassifier(imageModelURL + 'model.json');
-  img1 = loadImage('leaf.png');//ALWAYS remember to preload img
-  img2 = loadImage('fishbone.png');
-  img3 = loadImage('diamond.png');
-  img4 = loadImage('peacock.png');
-  img5 = loadImage('twist.png');
-  img6 = loadImage('heart.png');
+  img1 = loadImage('images/leaf.png');//ALWAYS remember to preload img
+  img2 = loadImage('images/fishbone.png');
+  img3 = loadImage('images/diamond.png');
+  img4 = loadImage('images/peacock.png');
+  img5 = loadImage('images/twist.png');
+  img6 = loadImage('images/heart.png');
   imgArray=[img1,img2,img3,img4,img5,img6];
-  clearButton = loadImage('clear_button_cn.png');
-  shuffleButton = loadImage('shuffle_button.png');
-  finishButton = loadImage('finish_button_cn.png');
-  hitAlert = createAudio('hit.wav');
-  finishAlert = createAudio('finish.wav');
+  clearButton = loadImage('images/clear_button_cn.png');
+  shuffleButton = loadImage('images/shuffle_button.png');
+  finishButton = loadImage('images/finish_button_cn.png');
+  hitAlert = createAudio('sounds/hit.wav');
+  finishAlert = createAudio('sounds/finish.wav');
 }
 
 function setup() {
