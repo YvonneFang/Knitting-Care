@@ -93,7 +93,7 @@ function setup() {
      draggedImg = int(random(6));
     myImg = imgArray[draggedImg];//doesn't include max value
     imgX = int(random(65,655));// 50 is set to show whole image
-    if (int(random(0,2))==0&&imgX>=492&&imgX<640){
+    if (int(random(0,2))==0&&imgX>=492&&imgX<600){
      imgY = int(random(0,15));
       }else
      {imgY = int(random(460,475));//weird offset 32.5
@@ -118,7 +118,7 @@ function setup() {
 
   // Registering my own blue color
   tracking.ColorTracker.registerColor('blue',function(r,g,b){
-    if (r<40&&g<90&&b>120){
+    if (r<40&&g<90&&b>130){
       return true;
     }
     return false;
@@ -222,18 +222,18 @@ if (label == "Red & Blue"&&promptDragged == false){
   }
       // Knit pattern shuffle button, clear and finish buttons
   image(shuffleButton,640,12,40,40);
-    if ((label == 'Red'||label == 'Red & Blue'||label == 'Blue')&&trackXRed<696&&trackXRed>656&&trackYRed>12&&trackYRed<52){
+    if ((label == 'Red'||label == 'Red & Blue'||label == 'Blue')&&trackXRed<80&&trackXRed>40&&trackYRed>12&&trackYRed<52){
       hitAlert.play();
       shuffle(rule,true);
       console.log(rule);
       }
   image(clearButton,40,12,40,40);
-  if ((label == 'Red'||label == 'Red & Blue'||label == 'Blue')&&trackXRed<616&&trackXRed>576&&trackYRed>12&&trackYRed<52){
+  if ((label == 'Red'||label == 'Red & Blue'||label == 'Blue')&&trackXRed<680&&trackXRed>640&&trackYRed>12&&trackYRed<52){
       hitAlert.play();
       paintbg.clear();
       }
   image(finishButton,144,12,40,40);
-  if ((label == 'Red'||label == 'Red & Blue'||label == 'Blue')&&trackXRed<534&&trackXRed>494&&trackYRed>12&&trackYRed<52){
+  if ((label == 'Red'||label == 'Red & Blue'||label == 'Blue')&&trackXRed<576&&trackXRed>536&&trackYRed>12&&trackYRed<52){
       finishAlert.play();
       paintbg.filter(BLUR,5);
       startX1 = 460;
