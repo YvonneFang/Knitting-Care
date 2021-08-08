@@ -92,7 +92,7 @@ function setup() {
    setInterval(function(){
      draggedImg = int(random(6));
     myImg = imgArray[draggedImg];//doesn't include max value
-    imgX = int(random(80,460));// 50 is set to show whole image
+    imgX = int(random(260,460));// 50 is set to show whole image
     if (int(random(0,2))==0){
      imgY = int(random(0,15));
       }else
