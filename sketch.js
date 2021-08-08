@@ -92,8 +92,8 @@ function setup() {
    setInterval(function(){
      draggedImg = int(random(6));
     myImg = imgArray[draggedImg];//doesn't include max value
-    imgX = int(random(65,655));// 50 is set to show whole image
-    if (int(random(0,2))==0&&imgX>=492&&imgX<600){
+    imgX = int(random(80,460));// 50 is set to show whole image
+    if (int(random(0,2))==0){
      imgY = int(random(0,15));
       }else
      {imgY = int(random(460,475));//weird offset 32.5
