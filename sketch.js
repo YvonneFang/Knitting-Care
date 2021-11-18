@@ -1,8 +1,3 @@
-//references: tracking.js, draggable, xinxin setinterval;
-
-//There could be a symmetry option, if mapping  turns out ugly
-//TODOs 做毛线花纹img - 1hr；线自己绕成一个叶子 - load animation +max；比较符合人的思绪发展；界面外。
-
 let c1;
 let c2;
 let c3;
